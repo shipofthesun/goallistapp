@@ -1,0 +1,11 @@
+12/20/18
+-Added method private Path convertToPath(String pathString) throws NumberFormatException
+to GoalListManager class for converting path Strings to Path objects.This was necessary 
+to enable the user to specify a path as a String.  Now the user will not need to 
+have access to the GoalListManager inner class Path.
+-Changed method public static Path getPath(Goal goal) to public static String 
+getPath(Goal goal) GoalListManager inner class Goal.This was done to avoid sending 
+a Path object back to client application.
+-Added method public int getPathSize(String pathString) to GoalListManager class.
+This is necessary for the client to be able to access the size of a path without
+having direct access to the Path object.

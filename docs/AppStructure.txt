@@ -1,0 +1,47 @@
+App Structure
+*************
+
+Class dependencies
+	GoalListApp(GoalListAppManager) -> Goal -> DynamicArray
+	
+Class Descriptions
+	GoalListApp:
+		-main program resides here.  
+		-contains a goal list manager subclass to manage goals list 
+		-controls the flow of the program, interacting directly with
+		the user to allow them to add, delete, edit, display etc. the goals they 
+		have created.
+		
+		private class GoalListManager
+			description-
+				Manages a DynamicArray of goal and its subgoals.
+			members-
+				DynamicArray<Goal> goals - DynamicArray of Goal to hold the main goals created by the user, all other goals are direct or indirect subgoals of these top level goals
+			methods-
+				public swapSiblings(Goal sibling1, Goal sibling2) - causes one sibling(goals directly under the same parent goal) goal to swap positions in ordering with another
+				printGoals() - display all goals that should be showing (all parent goals expanded where appropriate)
+	Goal:
+		description- 
+			Represents one goal and contains an array of Goal to serve as subgoals to this goal, which can in turn also have their own subgoals
+		members-
+			private String path - a String containing a sequence of DyanamicArray indices divided by ".".  Allows the location of a specific goal.
+			String goalName - String representing the name of the goal created by the user
+			DynamicArray<Goal> subgoals - array of Goal to contain subgoals
+			boolean expanded - indicates whether this goal should be showing it subgoals
+		methods-
+			public Goal[] getSubGoals() - return an array of Goal containing all subgoals of this goal
+			public contractGoal() - set expanded to false
+			public expandGoal() - set expanded to true
+		
+	DynamicArray:
+		description - 
+			Parameterized class designed to allow the creation of dyanamic arrays 
+			of any type.  Increases the size of the array whenever an attempt is made to access an index that is currently out of bounds.  
+			Increases the size of the array to double the size of the desired index.
+		data-
+		
+		members-
+
+Challenges
+- need to be able to link goals as they appear to the user with goals as they exist
+in DynamicArray of Goal

@@ -1,0 +1,4 @@
+Todo
+
+-test DynamicArrayList class
+-test GoalManager class along with attendent inner classes

@@ -1,0 +1,10 @@
+Goal's App Requirements
+***********************
+
+-create goals and subgoals within goals
+-display them to the user so that supergoals can be double clicked to expose subgoals beneath
+-allow user to add goals and subgoals to the supergoals
+-allow goal details to be added besides the name of the goal, to include items such a description, deadline, etc
+-when a goal is double clicked, the goal should expand to show its subgoals
+-there should be buttons to allow the user to expand and collapse all goals
+-the user should be able to change the order of sibling goals

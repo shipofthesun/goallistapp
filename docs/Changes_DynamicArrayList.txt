@@ -1,0 +1,4 @@
+12/20/18
+-Added method public void delete() throws IndexOutOfBoundsException.  This method
+simply deletes the last element in the internal array by reducing the reported 
+list size by one.

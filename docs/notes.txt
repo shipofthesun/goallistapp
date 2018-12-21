@@ -1,0 +1,12 @@
+-commands for terminal version:
+	CreateGoal goalName 
+	CreateSubGoal goalName parentPath
+	DeleteGoal path
+	DeleteAllGoals 
+	CollapseAll 
+	ExpandAll
+	ExpandGoal path
+	CollapseGoal path
+	PrintGoals
+	
+	

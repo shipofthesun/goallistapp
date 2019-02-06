@@ -145,6 +145,7 @@ public class GoalListManager
 	*	Add a Goal to goals
 	*/
 	public void createGoal(String goalName) {
+		System.out.println("I'm here")
 		DynamicArrayList<Integer> path = new DynamicArrayList<Integer>();
 		Goal newGoal = new Goal(goalName,null,goals.getSize());
 		goals.insert(newGoal);

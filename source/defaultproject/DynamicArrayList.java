@@ -15,16 +15,7 @@ public class DynamicArrayList<T> {
 	private int listSize;		//current size of list
 	
 	/**
-	*	Constructor which allows the specification of an initial lenght of dArray.
-	**/
-	@SuppressWarnings("unchecked")
-	DynamicArrayList(int initialLength) {
-		dArray = (T[])new Object[initialLength];
-		listSize = 0;
-	}
-	
-	/**
-	*	Constructor which allows the specification of an initial lenght of dArray.
+	*	Constructor which sets the initial size to 10.
 	**/
 	@SuppressWarnings("unchecked")
 	DynamicArrayList() {
@@ -32,7 +23,14 @@ public class DynamicArrayList<T> {
 		listSize = 0;
 	}
 	
-	
+	/**
+	*	Constructor which allows the specification of an initial lenght of dArray.
+	**/
+	@SuppressWarnings("unchecked")
+	DynamicArrayList(int initialLength) {
+		dArray = (T[])new Object[initialLength];
+		listSize = 0;
+	}
 	
 	/**
 	*	Inserts an object T into dArray at specified pos.  The position must be 
@@ -113,8 +111,14 @@ public class DynamicArrayList<T> {
 	/**
 	*	Returns the current listSize of the array.
 	*/
-	public int getSize() {
+	public int getSize() 
+	{
 		return listSize;
+	}
+	
+	public int getCapacity() 
+	{
+		return dArray.length;
 	}
 	
 	/**

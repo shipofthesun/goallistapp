@@ -32,6 +32,8 @@ public class GoalListApp {
 			userInput = scanner.nextLine().trim();
 			//parse command and execute
 			commandElements = parseCommand(userInput);
+			System.out.print(commandElements[0]);
+			System.out.print(commandElements[1]);
 			switch(commandElements[0]) {
 				case "creategoal":		listManager.createGoal(commandElements[1]);	
 				case "createsubgoal": 	listManager.createSubGoal(commandElements[1], commandElements[2]);
@@ -82,12 +84,12 @@ public class GoalListApp {
 		GoalListManager.Goal currentGoal;		//Goal currently being printed.
 		String goalName;						//Name of currentGoal.
 		String path;							//Path to currentGoal
-		//int tabs;								//The number of tabs that must be inserted for this goal.
+		int tabs;								//The number of tabs that must be inserted for this goal.
 		for(int pos = 0; pos < visibleGoals.length; pos++) {
 			currentGoal = visibleGoals[pos];
 			goalName = currentGoal.publicGetName();
 			path = currentGoal.publicGetPath();
-			//tabs = currentGoal.getPathSize();
+			tabs = currentGoal.getPathSize();
 			for(int tabNumber = 0; tabNumber < tabs; tabNumber++) {
 				System.out.print("\t");
 			}

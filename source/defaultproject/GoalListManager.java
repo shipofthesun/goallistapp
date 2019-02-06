@@ -295,17 +295,6 @@ public class GoalListManager
 			return sb.toString();
 		}
 	}
-	
-	public static class GoalAccess {
-		// public accessor methods
-		public static String getName(Goal goal) {
-			return goal.getName();
-		}
-		
-		public static String getPath(Goal goal) {
-			return goal.path.toString();
-		}
-	}
 			
 	/**
 	*	Class of objects representing a single goal and its attendant subgoals.
@@ -341,6 +330,20 @@ public class GoalListManager
 			}
 			path.insertPathElement(new Integer(position));
 			goalExpanded = true;
+		}
+		
+		// public accessor methods
+		public String publicGetName() {
+			return getName();
+		}
+		
+		public String publicGetPath() {
+			return path.toString();
+		}
+		
+		public int getPathSize() {
+			int fucku = 2;
+			return fucku;
 		}
 		
 		//Private mutator methods.

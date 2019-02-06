@@ -2,14 +2,20 @@
 
 //import javaprojects.goallistapp.source.list.GoalListManager;
 import java.util.Scanner;
+import java.io.IOException;
 
 public class GoalListApp {
 	private static final int MAX_COMMAND_ELEMENTS = 3;
 	
-	private Goal[] visibleGoals;
+	private GoalListManager.Goal[] visibleGoals;
 	private GoalListManager listManager;
 	
 	public static void main(String[] args) throws IOException {	
+		GoalListApp program = new GoalListApp();
+		program.startProgramLoop();
+	}
+	
+	public void startProgramLoop() {
 		listManager = new GoalListManager();
 		
 		//Main program loop.
@@ -18,7 +24,7 @@ public class GoalListApp {
 		String[] commandElements;
 		while(true) {
 			//print goals if any
-			if(GoalListManager.hasGoals()) {
+			if(listManager.hasGoals()) {
 				printGoals();
 			}
 			//get user command
@@ -38,25 +44,28 @@ public class GoalListApp {
 				case "exit":			System.exit(0);
 			}
 			System.out.println();
+			printGoals();
 		}
 	}
+		
 	/**
 	*	Parse a command into the seperate words of the command.
 	*/
-	private static String[] parseCommand(String command) {
+	private String[] parseCommand(String command) {
 		String[] commandElements = new String[MAX_COMMAND_ELEMENTS];
 		int commandElementsPos = 0;
 		int startPos = 0;
 		int endPos = 0;
+		char c;
 		while(endPos < command.length() && startPos < command.length() && commandElementsPos < MAX_COMMAND_ELEMENTS) {
 			startPos = endPos;
 			do {
-				char c = command.charAt(endPos);
+				c = command.charAt(endPos);
 				endPos++;
 				if(endPos == command.length()) 
 					break;
 			} while(c != ' ');
-			commandElements[commandElementsPos] = userInput.subString(startPos,endPos).toLowerCase();
+			commandElements[commandElementsPos] = command.substring(startPos,endPos).toLowerCase();
 			commandElementsPos++;
 			startPos++;
 		}
@@ -66,20 +75,20 @@ public class GoalListApp {
 	/**
 	*	Print visible goals.
 	*/
-	private static void printGoals() {
-		Goal[] visibleGoals = listManager.getVisibleGoals();
+	private void printGoals() {
+		GoalListManager.Goal[] visibleGoals = listManager.getVisibleGoals();
 		System.out.println("Goals: ");
 		
-		Goal currentGoal;		//Goal currently being printed.
-		String goalName;		//Name of currentGoal.
-		String path;			//Path to currentGoal
-		int tabs;				//The number of tabs that must be inserted for this goal.
+		GoalListManager.Goal currentGoal;		//Goal currently being printed.
+		String goalName;						//Name of currentGoal.
+		String path;							//Path to currentGoal
+		//int tabs;								//The number of tabs that must be inserted for this goal.
 		for(int pos = 0; pos < visibleGoals.length; pos++) {
 			currentGoal = visibleGoals[pos];
-			goalName = GoalListManager.Goal.getName(currentGoal);
-			path = GoalListManager.Goal.getPath(currentGoal);
-			tabs = GoalistManager.getPathSize(path);
-			for(int tabNumber = 0; tabNumer < tabs; tabNumber++) {
+			goalName = currentGoal.publicGetName();
+			path = currentGoal.publicGetPath();
+			//tabs = currentGoal.getPathSize();
+			for(int tabNumber = 0; tabNumber < tabs; tabNumber++) {
 				System.out.print("\t");
 			}
 			System.out.println(path + " " + goalName);

@@ -41,14 +41,16 @@ public class GoalListManager
 	*/
 	private void fillVisibleGoals() throws IllegalStateException 
 	{
-		if(goals.getSize() == 0) {
+		if(goals.getSize() == 0) 
+		{
 			throw new IllegalStateException("There are currently no goals.");
 		}
 		//Clear visibleGoals.
 		visibleGoals = new DynamicArrayList<Goal>();
 		//Insert all goals that should be visible into visibleGoals array.
 		Goal currentGoal;
-		for(int goalsPos = 0; goalsPos < goals.getSize(); goalsPos++) {
+		for(int goalsPos = 0; goalsPos < goals.getSize(); goalsPos++) 
+		{
 			visibleGoals.insertMultiple(goals.getElement(goalsPos).getSubGoals());
 		}
 	}
@@ -105,16 +107,19 @@ public class GoalListManager
 	*	Sets the goal specified by path to be expanded.  All parent goals of the
 	* 	specified goal must expanded in order for the specified goal to be expanded
 	*/
-	public void expandGoal(String pathString) throws IllegalArgumentException {
+	public void expandGoal(String pathString) throws IllegalArgumentException 
+	{
 		Path path = convertToPath(pathString);	//pathString converted to Path object
 		Goal currentGoal;			//Current target parent Goal
 		Path currentPath = new Path();			//Path to current target parent Goal
 		//Check to see if all parent paths are expanded before expanding goal specified by path argument.
 		currentPath.insertPathElement(path.getPathElement(0)); 
 		currentGoal = findGoal(currentPath);
-		for(int pathPos = 1; pathPos < path.getSize(); pathPos++) {
+		for(int pathPos = 1; pathPos < path.getSize(); pathPos++) 
+		{
 			//Exit if one of the parents is not expanded.
-			if(!currentGoal.isExpanded()) {
+			if(!currentGoal.isExpanded()) 
+			{
 				throw new IllegalArgumentException("All parent paths must be expanded to expand goal specified by path");
 			}
 			currentPath.insertPathElement(path.getPathElement(pathPos)); 
@@ -135,16 +140,23 @@ public class GoalListManager
 	*	Method returns a DynamicArrayList of type Goal representing all goals
 	*	that are currently visible (whose parent is expanded).
 	*/
-	public Goal[] getVisibleGoals() {
+	public Goal[] getVisibleGoals() 
+	{
 		fillVisibleGoals();
-		return visibleGoals.toArray();
+		Goal[] visibleGoalArray = new Goal[visibleGoals.getSize()]
+		for(int visibleGoalArrayPos =  0; visibleGoalArrayPos < visibleGoalArray.length; visibleGoalArrayPos++) 
+		{
+			visibleGoalArray[visibleGoalArrayPos] = visibleGoals.getElement(visibleGoalArrayPos);
+		}
+		return visibleGoalArray;
 	}
 	
 	//manipulate goals list
 	/**
 	*	Add a Goal to goals
 	*/
-	public void createGoal(String goalName) {
+	public void createGoal(String goalName) 
+	{
 		System.out.println("I'm here")
 		DynamicArrayList<Integer> path = new DynamicArrayList<Integer>();
 		Goal newGoal = new Goal(goalName,null,goals.getSize());
@@ -155,7 +167,8 @@ public class GoalListManager
 	*	Creates a subgoal under a specific parent goal.  Requires a path of indices
 	*	to locate the desired parent goal.
 	*/
-	public void createSubGoal(String goalName, String pathString){
+	public void createSubGoal(String goalName, String pathString)
+	{
 		Path path = convertToPath(pathString);
 		Goal parentGoal = findGoal(path);
 		parentGoal.addSubGoal(goalName);
@@ -219,15 +232,18 @@ public class GoalListManager
 	*	The paths of all subGoals affected by this change in their parent's position
 	*	will need to be recalculated.
 	*/
-	public void deleteGoal(String pathString) {
+	public void deleteGoal(String pathString) 
+	{
 		Path path = convertToPath(pathString);
 		Goal goal = findGoal(path);
-		if(goal.hasParent()) {
+		if(goal.hasParent()) 
+		{
 			goal.remove();
 		}
 		else {
 			Goal currentGoal;
-			for(int goalsPos = path.getPathElement(0); goalsPos < goals.getSize() - 1; goalsPos++) {
+			for(int goalsPos = path.getPathElement(0); goalsPos < goals.getSize() - 1; goalsPos++) 
+			{
 				currentGoal = goals.getElement(goalsPos + 1);
 				goals.insert(currentGoal, goalsPos);
 				currentGoal.changePosition(goalsPos);
@@ -240,7 +256,8 @@ public class GoalListManager
 	*	Delete all parent goals by changing the size of parentGoalsList to 
 	* 	zero
 	*/
-	public void deleteAllGoals() {
+	public void deleteAllGoals()
+	{
 		goals = new DynamicArrayList<Goal>();	
 		visibleGoals = new DynamicArrayList<Goal>();
 	}
@@ -249,7 +266,8 @@ public class GoalListManager
 	*	Class of objects representing paths to goals (array of indices needed to find
 	*	a goal starting at the top most parent goal (main goals of goalList))
 	*/
-	private class Path {
+	private class Path 
+	{
 		private DynamicArrayList<Integer> pathArray;
 		
 		private Path() 
@@ -257,7 +275,8 @@ public class GoalListManager
 			pathArray = new DynamicArrayList<Integer>(10);
 		}
 		
-		private Path(Path path) {
+		private Path(Path path) 
+		{
 			pathArray = new DynamicArrayList<Integer>(path.getSize());
 			for(int pathPos = 0; pathPos < path.getSize(); pathPos++) 
 			{
@@ -286,9 +305,11 @@ public class GoalListManager
 			return pathArray.getSize();
 		}
 		
-		public String toString() {
+		public String toString() 
+		{
 			StringBuilder sb = new StringBuilder(pathArray.getSize());
-			for(int pathPos = 0; pathPos < pathArray.getSize(); pathPos++) {
+			for(int pathPos = 0; pathPos < pathArray.getSize(); pathPos++) 
+			{
 				sb.append(pathArray.getElement(pathPos));
 				sb.append('.');
 			}
@@ -300,7 +321,8 @@ public class GoalListManager
 	/**
 	*	Class of objects representing a single goal and its attendant subgoals.
 	*/
-	public class Goal {
+	public class Goal 
+	{
 		//goal details
 		private String goalName;
 		
@@ -319,14 +341,17 @@ public class GoalListManager
 		*	@position This goal's position in parent subGoals array.  Needed to construct a full
 		*	path to itself.  
 		*/
-		public Goal(String name, Goal parentGoal, int position) {
+		public Goal(String name, Goal parentGoal, int position) 
+		{
 			goalName = name;
 			subGoals = new DynamicArrayList<Goal>();
 			parent = parentGoal;
-			if(parentGoal != null) {
+			if(parentGoal != null) 
+			{
 				path = new Path(parentGoal.getPath());
 			}
-			else {
+			else 
+			{
 				path = new Path();
 			}
 			path.insertPathElement(new Integer(position));
@@ -334,15 +359,19 @@ public class GoalListManager
 		}
 		
 		// public accessor methods
-		public String publicGetName() {
+		public String publicGetName() 
+		{
 			return getName();
 		}
 		
-		public String publicGetPath() {
+		public String publicGetPath() 
+		{
 			return path.toString();
 		}
 		
-		public int getPathSize() {
+		//**********fix this***************//
+		public int getPathSize() 
+		{
 			int fucku = 2;
 			return fucku;
 		}
@@ -351,13 +380,16 @@ public class GoalListManager
 		/**
 		* 	Sets the this goal to be showing subgoals
 		*/
-		private void expand() {
+		private void expand() 
+		{
 			goalExpanded = true;
 		}
 		
-		private void expandAllSubGoals() {
+		private void expandAllSubGoals() 
+		{
 			Goal subGoal;
-			for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) {
+			for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) 
+			{
 				subGoal = subGoals.getElement(subGoalsPos);
 				subGoal.expand();
 				if(subGoal.getSubGoalCount() > 0) {
@@ -369,11 +401,14 @@ public class GoalListManager
 		/**
 		*	Sets this goal to no show subgoals.  Also calls collapse on all subgoals.
 		*/
-		private void collapse() {
+		private void collapse() 
+		{
 			goalExpanded = false;
-			if(subGoals.getSize() > 0) {
+			if(subGoals.getSize() > 0) 
+			{
 				Goal subGoal;
-				for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) {
+				for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) 
+				{
 					subGoal = subGoals.getElement(subGoalsPos);
 					subGoal.collapse();
 				}
@@ -383,19 +418,22 @@ public class GoalListManager
 		/**
 		*	Add subgoal and specify its path based on the previous path.
 		*/
-		private void addSubGoal(String goalName) {
+		private void addSubGoal(String goalName) 
+		{
 			Goal subGoal = new Goal(goalName,parent,subGoals.getSize());
 			subGoals.insert(subGoal);
 		}
 		
-		private Goal getParent() {
+		private Goal getParent() 
+		{
 			return parent;
 		}
 		
 		/** 
 		* Remove all subgoals from this goal.
 		*/
-		private void removeAllSubGoals() {
+		private void removeAllSubGoals() 
+		{
 			 subGoals = new DynamicArrayList<Goal>();
 		}
 		
@@ -403,11 +441,14 @@ public class GoalListManager
 		/**
 		*	Returns the goal stored at indicated position
 		*/
-		private Goal getSubGoal(int pos) throws IllegalArgumentException {
-			if((pos >= subGoals.getSize()) || (pos < 0)) {
+		private Goal getSubGoal(int pos) throws IllegalArgumentException 
+		{
+			if((pos >= subGoals.getSize()) || (pos < 0)) 
+			{
 				throw new IllegalArgumentException("Index is out of range");
 			}
-			else {
+			else 
+			{
 				return subGoals.getElement(pos);
 			}
 				
@@ -415,49 +456,58 @@ public class GoalListManager
 		/**
 		*	Returns true if this goal has a parent goal.
 		*/
-		private boolean hasParent() {
+		private boolean hasParent() 
+		{
 			return (parent != null);
 		}
 		
 		/**
 		*	Sets the text of the goal to gn
 		*/
-		private void setName(String gn) {
+		private void setName(String gn) 
+		{
 			goalName = gn;
 		}
 		
 		/**
 		* 	Returns the text of the goal goalName
 		*/
-		private String getName() {
+		private String getName() 
+		{
 			return goalName;
 		}	
 		
-		private Path getPath() {
+		private Path getPath() 
+		{
 			return path;
 		}
 		
-		private String getPathString() {
+		private String getPathString() 
+		{
 			return path.toString();
 		}
 		
 		/**
 		*	Returns the amount of subGoals of this goal
 		*/
-		private int getSubGoalCount() {
+		private int getSubGoalCount() 
+		{
 			return subGoals.getSize();
 		}
 		
 		/**
 		*	Returns a DynamicArrayList of this goal's subGoals
 		*/
-		private DynamicArrayList<Goal> getSubGoals() {
+		private DynamicArrayList<Goal> getSubGoals() 
+		{
 			DynamicArrayList<Goal> currSubGoals = new DynamicArrayList<Goal>();
 			currSubGoals.insert(this);
 			Goal subGoal;
-			for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) {
+			for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) 
+			{
 				subGoal = subGoals.getElement(subGoalsPos);
-				if((subGoal.isExpanded()) && (subGoal.getSubGoalCount() > 0)) {
+				if((subGoal.isExpanded()) && (subGoal.getSubGoalCount() > 0)) 
+				{
 					currSubGoals.insertMultiple(subGoal.getSubGoals());
 				}
 			}
@@ -467,7 +517,8 @@ public class GoalListManager
 		/**
 		*	Returns boolean value indicating whether this goal is expanded or not
 		*/
-		private boolean isExpanded() {
+		private boolean isExpanded() 
+		{
 			return goalExpanded;
 		}
 		
@@ -484,7 +535,8 @@ public class GoalListManager
 			}
 			
 			Goal currentGoal;
-			for(int goalsPos = path.getPathElement(0); goalsPos < goals.getSize() - 1; goalsPos++) {
+			for(int goalsPos = path.getPathElement(0); goalsPos < goals.getSize() - 1; goalsPos++) 
+			{
 				currentGoal = parent.getSubGoal(goalsPos + 1);
 				goals.insert(currentGoal, goalsPos);
 				currentGoal.changePosition(goalsPos);
@@ -496,11 +548,13 @@ public class GoalListManager
 		*	Also calls recalculatePath on all subgoals to propogate a change in their
 		*	and all theirs subGoals' paths to also reflect the change.
 		*/
-		private void changePosition(int newPos) {
+		private void changePosition(int newPos) 
+		{
 			path.insertPathElement(newPos, (path.getSize() - 1));
 			
 			Goal currentGoal;
-			for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) {
+			for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) 
+			{
 				currentGoal = subGoals.getElement(subGoalsPos);
 				currentGoal.recalculatePath();
 			}
@@ -510,7 +564,8 @@ public class GoalListManager
 		*	Recalulates its path by appending its position in the parent array
 		* 	to the end of its parent's current path.
 		*/
-		private void recalculatePath() {
+		private void recalculatePath() 
+		{
 			//get the current position of the goal in parent subGoals list
 			Integer position = path.getPathElement(path.getSize());
 			/*	Recalculate the path by remaking it and initializing it to the value of its
@@ -519,7 +574,8 @@ public class GoalListManager
 			path.insertPathElement(position);
 			//recalculate the path of all subgoals
 			Goal currentGoal;
-			for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) {
+			for(int subGoalsPos = 0; subGoalsPos < subGoals.getSize(); subGoalsPos++) 
+			{
 				currentGoal = subGoals.getElement(subGoalsPos);
 				currentGoal.recalculatePath();
 			}

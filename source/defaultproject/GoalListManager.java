@@ -143,7 +143,7 @@ public class GoalListManager
 	public Goal[] getVisibleGoals() 
 	{
 		fillVisibleGoals();
-		Goal[] visibleGoalArray = new Goal[visibleGoals.getSize()]
+		Goal[] visibleGoalArray = new Goal[visibleGoals.getSize()];
 		for(int visibleGoalArrayPos =  0; visibleGoalArrayPos < visibleGoalArray.length; visibleGoalArrayPos++) 
 		{
 			visibleGoalArray[visibleGoalArrayPos] = visibleGoals.getElement(visibleGoalArrayPos);
@@ -157,7 +157,6 @@ public class GoalListManager
 	*/
 	public void createGoal(String goalName) 
 	{
-		System.out.println("I'm here")
 		DynamicArrayList<Integer> path = new DynamicArrayList<Integer>();
 		Goal newGoal = new Goal(goalName,null,goals.getSize());
 		goals.insert(newGoal);
@@ -178,6 +177,7 @@ public class GoalListManager
 	*	Converts a string representing a path into a path object by parsing the string
 	*	and inserting all extracted Integers into path one at a time.
 	*/
+	/* Error Here @ line 197 (c = pathString.charAt(endPos);) */
 	private Path convertToPath(String pathString) throws NumberFormatException
 	{
 		Path path = new Path();
@@ -194,6 +194,10 @@ public class GoalListManager
 				while(c != '.' && (pathStringPos < pathString.length())) 
 				{
 					endPos++;
+					if(endPos == pathString.length())
+					{
+						break;
+					}
 					pathStringPos++;
 					c = pathString.charAt(endPos);
 				}

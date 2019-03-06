@@ -7,17 +7,16 @@ import java.io.IOException;
 public class GoalListApp 
 {
 	private static final int MAX_COMMAND_ELEMENTS = 3;
-	
 	private GoalListManager.Goal[] visibleGoals;
 	private GoalListManager listManager;
 	
 	public static void main(String[] args) throws IOException 
 	{	
 		GoalListApp program = new GoalListApp();
-		program.startProgramLoop();
+		program.runProgramLoop();
 	}
 	
-	public void startProgramLoop() 
+	public void runProgramLoop() 
 	{
 		listManager = new GoalListManager();
 		
@@ -25,33 +24,46 @@ public class GoalListApp
 		Scanner scanner = new Scanner(System.in);
 		String userInput;
 		String[] commandElements;
-		while(true) {
+			while(true) {
 			//print goals if any
 			if(listManager.hasGoals()) 
 			{
 				printGoals();
 			}
+			else
+			{
+				System.out.println("Use creategoal [goalname] to add a goal");
+			}
 			//get user command
 			System.out.print("->");
 			userInput = scanner.nextLine().trim();
 			//parse command and execute
-			commandElements = parseCommand(userInput);
-			System.out.print(commandElements[0]);
-			System.out.print(commandElements[1]);
+			commandElements = parseCommand(userInput); 
 			switch(commandElements[0]) 
 			{
-				case "creategoal":		listManager.createGoal(commandElements[1]);	
+				case "creategoal":		System.out.println("Creating Goal");
+										listManager.createGoal(commandElements[1]);	
+										break;
 				case "createsubgoal": 	listManager.createSubGoal(commandElements[1], commandElements[2]);
+										break;
 				case "deletegoal": 		listManager.deleteGoal(commandElements[1]);
+										break;
 				case "cleargoals": 		listManager.deleteAllGoals();
+										break;
 				case "collapseall": 	listManager.collapseAll();
+										break;
 				case "expandall": 		listManager.expandAll();
+										break;
 				case "expandgoal": 		listManager.expandGoal(commandElements[1]);
+										break;
 				case "collapsegoal": 	listManager.collapseGoal(commandElements[1]);
+										break;
 				case "exit":			System.exit(0);
+				default:				System.out.println("Unrecognized Command");
+										break;
 			}
 			System.out.println();
-			printGoals();
+			//printGoals();
 		}
 	}
 		
@@ -65,7 +77,7 @@ public class GoalListApp
 		int startPos = 0;
 		int endPos = 0;
 		char c;
-		while(endPos < command.length() && startPos < command.length() && commandElementsPos < MAX_COMMAND_ELEMENTS) 
+		while(endPos < command.length()) 
 		{
 			startPos = endPos;
 			do 
@@ -75,7 +87,15 @@ public class GoalListApp
 				if(endPos == command.length()) 
 					break;
 			} while(c != ' ');
-			commandElements[commandElementsPos] = command.substring(startPos,endPos).toLowerCase();
+			if(endPos == command.length()) 
+			{
+				commandElements[commandElementsPos] = command.substring(startPos).toLowerCase();
+				break;
+			}
+			else
+			{
+				commandElements[commandElementsPos] = command.substring(startPos,endPos - 1).toLowerCase();
+			}
 			commandElementsPos++;
 			startPos++;
 		}
@@ -87,6 +107,7 @@ public class GoalListApp
 	*/
 	private void printGoals() 
 	{
+		
 		GoalListManager.Goal[] visibleGoals = listManager.getVisibleGoals();
 		System.out.println("Goals: ");
 		

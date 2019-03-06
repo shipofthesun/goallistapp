@@ -117,7 +117,6 @@ public class DynamicArrayList<T>
 		}
 		return dArray[pos];
 	}
-	
 	/**
 	*	Returns the current listSize of the array.
 	*/

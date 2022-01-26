@@ -1,6 +1,7 @@
 //package javaprojects.goallistapp.source.goallistappmain;
 
 //import javaprojects.goallistapp.source.list.GoalListManager;
+//import DynamicArrayList
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -39,10 +40,18 @@ public class GoalListApp
 			userInput = scanner.nextLine().trim();
 			//parse command and execute
 			commandElements = parseCommand(userInput); 
+			/*for(int i = 0; i < commandElements.length; i++) {
+				System.out.println(commandElements[i]);
+			}*/
 			switch(commandElements[0]) 
 			{
-				case "creategoal":		System.out.println("Creating Goal");
-										listManager.createGoal(commandElements[1]);	
+				case "creategoal":		StringBuilder sb = new StringBuilder();
+										for(int commandElementsPos = 1; commandElementsPos < commandElements.length; commandElementsPos++)
+										{
+											sb.append(commandElements[commandElementsPos] + ' ');
+										}
+										sb.deleteCharAt(sb.length()-1);	
+										listManager.createGoal(sb.toString());	
 										break;
 				case "createsubgoal": 	listManager.createSubGoal(commandElements[1], commandElements[2]);
 										break;
@@ -72,8 +81,8 @@ public class GoalListApp
 	*/
 	private String[] parseCommand(String command) 
 	{
-		String[] commandElements = new String[MAX_COMMAND_ELEMENTS];
-		int commandElementsPos = 0;
+		DynamicArrayList<String> commandElements = new DynamicArrayList<String>();
+		
 		int startPos = 0;
 		int endPos = 0;
 		char c;
@@ -89,17 +98,21 @@ public class GoalListApp
 			} while(c != ' ');
 			if(endPos == command.length()) 
 			{
-				commandElements[commandElementsPos] = command.substring(startPos).toLowerCase();
+				commandElements.insert(command.substring(startPos).toLowerCase());
 				break;
 			}
 			else
 			{
-				commandElements[commandElementsPos] = command.substring(startPos,endPos - 1).toLowerCase();
+				commandElements.insert(command.substring(startPos,endPos - 1).toLowerCase());
 			}
-			commandElementsPos++;
 			startPos++;
 		}
-		return commandElements;
+		String[] returnCommandElements = new String[commandElements.getSize()];
+		for(int returnCommandElementPos = 0; returnCommandElementPos < returnCommandElements.length; returnCommandElementPos++) 
+		{
+			returnCommandElements[returnCommandElementPos] = commandElements.getElement(returnCommandElementPos);
+		}
+		return returnCommandElements;
 	}
 	
 	/**
